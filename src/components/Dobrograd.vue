@@ -14,7 +14,12 @@
       <div class="mac10"><button @click="assembleMac()" class="assemble">MAC10</button></div>
     </div>
     <p>Добавить наценку:</p>
-    <div class="sliderParent"><input v-model="percentage" type="range" min="1" max="100" value="50" class="slider"></div>
+    <div class="sliderParent">
+      <input v-model="percentage" step="25" type="range" min="0" max="100" value="50" class="slider">
+      <div class="steps">
+        <div @click="percentage=step" v-for="step in steps" :key="step" class="step">{{step}}</div>
+      </div>
+    </div>
     <div @click="reset" class="reset"><button>СБРОСИТЬ</button></div>
   </div>
 </template>
@@ -57,6 +62,7 @@ export default {
       remains: 0,
       sellingPrice: 0,
       percentage: 0,
+      steps: [0, 25, 50, 75, 100],
     }
   },
   watch: {
@@ -101,19 +107,37 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="sass">
-*
-    
+   
 .dobrograd
   padding: 20px
   user-select: none
 
+
   .sliderParent
     display: flex
     justify-content: center
+    flex-direction: column
+    width: 100%
+    max-width: 350px
+    margin: 0 auto
 
+    .steps
+      display: flex
+      justify-content: space-between
+      margin-top: 7px
+
+      .step
+        margin-left: 6.5px
+        cursor: pointer
+        font-weight: 500
+        &:hover
+          border-radius: 6px
+          background-color: #554455
+          color: #eeeeee
+    
     .slider
       appearance: none
-      width: 25%
+      padding: 0 5px
       height: 15px
       background: #554455
       outline: none
@@ -167,7 +191,7 @@ export default {
     text-align: center
     background-color: #eeeeee
     width: 100%
-    max-width: 500px
+    max-width: 400px
     font-weight: 600
 
     span
