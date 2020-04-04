@@ -6,12 +6,6 @@
       <div class="cost"> Себестоимость с учётом остатка деталей: {{ Math.round(remains) }} </div>
       <div class="remain"> Останется деталей на сумму: {{ Math.round(gun) - Math.round(remains) }} </div>
     </div>
-    <p>Добавить наценку:</p>
-    <div class="charge">
-      <button v-for="percentage in percentages" :key="percentage" class="add" @click="addCharge(percentage)">
-        {{ `${percentage}% ` }}
-      </button>
-    </div>
     <p>Выбор крафта:</p>
     <div class="guns">
       <div class="glock"><button @click="assembleGlock()" class="assemble">Glock17</button></div>
@@ -19,6 +13,8 @@
       <div class="ak"><button @click="assembleAk()" class="assemble">AK47</button></div>
       <div class="mac10"><button @click="assembleMac()" class="assemble">MAC10</button></div>
     </div>
+    <p>Добавить наценку:</p>
+    <div class="sliderParent"><input v-model="percentage" type="range" min="1" max="100" value="50" class="slider"></div>
     <div @click="reset" class="reset"><button>СБРОСИТЬ</button></div>
   </div>
 </template>
@@ -60,12 +56,15 @@ export default {
       gun: 0,
       remains: 0,
       sellingPrice: 0,
-      percentages: [ 25, 50, 75, 100]
+      percentage: 0,
     }
   },
   watch: {
       gun(newValue){
         this.sellingPrice = newValue;
+      },
+      percentage(newValue){
+        this.sellingPrice = (this.gun * newValue/100) + this.gun
       }
   },
 
@@ -91,12 +90,10 @@ export default {
       this.remains = this.materialsSingle.breechblock*2 + this.materialsSingle.barrel*2 + this.materialsSingle.pistolGrip + this.materialsSingle.firingPin*5 + this.materialsSingle.hammer + this.materialsSingle.lock*5 + this.materialsSingle.magazine + this.materialsSingle.piston*8 + this.materialsSingle.bearing*5 + this.materialsSingle.spring*5 + this.materialsSingle.glue + this.materialsSingle.plate*2 + this.materialsSingle.ironSight
     },
 
-    addCharge(percentage){
-      this.sellingPrice = (this.gun * percentage/100) + this.gun
-    },
     reset(){
       this.gun = 0;
       this.remains = 0;
+      this.percentage = 0;
     }
   }
 }
@@ -109,6 +106,29 @@ export default {
 .dobrograd
   padding: 20px
   user-select: none
+
+  .sliderParent
+    display: flex
+    justify-content: center
+
+    .slider
+      appearance: none
+      width: 25%
+      height: 15px
+      background: #554455
+      outline: none
+      border-radius: 6px
+    
+    .slider::-webkit-slider-thumb 
+      appearance: none
+      width: 8px
+      height: 30px
+      background: #eeeeee
+      cursor: pointer
+      border-radius: 6px
+      border: 1px solid black
+
+
 
   button
     box-shadow: inset 0px 1px 0px 0px #ffffff
