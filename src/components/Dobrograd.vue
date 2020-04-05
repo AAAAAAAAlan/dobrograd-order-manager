@@ -12,6 +12,12 @@
       <div class="m3"><button @click="assembleShotgun()" class="assemble">M3 Super</button></div>
       <div class="ak"><button @click="assembleAk()" class="assemble">AK47</button></div>
       <div class="mac10"><button @click="assembleMac()" class="assemble">MAC10</button></div>
+      <div class="fiveseven"><button @click="assembleFiveseven()" class="assemble">Five Seven</button></div>
+      <div class="p228"><button @click="assembleP()" class="assemble">P228</button></div>
+      <div class="lockpick"><button @click="assembleLockpick()" class="assemble">Отмычка</button></div>
+      <div class="knife"><button @click="assembleKnife()" class="assemble">Ножик  </button></div>
+      <div class="light-vest"><button @click="assembleLightVest()" class="assemble">Лёгкий бронежилет</button></div>
+      <div class="vest"><button @click="assembleVest()" class="assemble">Бронежилет</button></div>
     </div>
     <p>Добавить наценку:</p>
     <div class="sliderParent">
@@ -41,7 +47,9 @@ export default {
         firingPin: 2015/5, // Ударник 2015₽ = 5шт
         lock: 2015/5, // Стопор 2015₽ = 5шт
         plate: 800, // Пластина 800₽ = 1шт
-        ironSight: 2015/8 // Мушка 2015₽ = 7шт
+        ironSight: 2015/8, // Мушка 2015₽ = 7шт
+        tape: 50, // Скотч 50₽ = 1шт
+        sight: 0 // ПОСТАВИТ ЦЕНУ!!!
       },
       materialsStack: {
         breechblock: 2015, // Затвор 
@@ -56,7 +64,8 @@ export default {
         firingPin: 2015, // Ударник 
         lock: 2015, // Стопор 
         plate: 800, // Пластина
-        ironSight: 2015 // Мушка
+        ironSight: 2015,   // Мушка
+        tape: 50 // Скотч 50₽ = 1шт
       },
       gun: 0,
       remains: 0,
@@ -94,6 +103,40 @@ export default {
       this.gun = this.materialsStack.breechblock + this.materialsStack.barrel + this.materialsStack.pistolGrip + this.materialsStack.firingPin + this.materialsStack.hammer + this.materialsStack.lock + this.materialsStack.magazine + this.materialsStack.piston*2 + this.materialsStack.bearing + this.materialsStack.spring + this.materialsStack.glue + this.materialsStack.plate*2 + this.materialsStack.ironSight
 
       this.remains = this.materialsSingle.breechblock*2 + this.materialsSingle.barrel*2 + this.materialsSingle.pistolGrip + this.materialsSingle.firingPin*5 + this.materialsSingle.hammer + this.materialsSingle.lock*5 + this.materialsSingle.magazine + this.materialsSingle.piston*8 + this.materialsSingle.bearing*5 + this.materialsSingle.spring*5 + this.materialsSingle.glue + this.materialsSingle.plate*2 + this.materialsSingle.ironSight
+    },
+    assembleLockpick(){
+      this.gun = this.materialsStack.plate + this.materialsStack.pistolGrip + this.materialsStack.glue
+
+      this.remains = this.materialsSingle.plate + this.materialsSingle.pistolGrip + this.materialsSingle.glue
+    },
+    assembleKnife(){
+      this.gun = this.materialsStack.plate*2 + this.materialsStack.pistolGrip + this.materialsStack.bearing + this.materialsStack.spring + this.materialsStack.glue
+
+      this.remains = this.materialsSingle.plate*2 + this.materialsSingle.pistolGrip + this.materialsSingle.bearing*2 + this.materialsSingle.spring + this.materialsSingle.glue
+    },
+    assembleLightVest(){
+      this.gun = this.materialsStack.plate*3 + this.materialsStack.tape + this.materialsStack.glue
+
+      this.remains = this.materialsSingle.plate*3 + this.materialsSingle.tape + this.materialsSingle.glue
+    },
+    assembleVest(){
+      this.gun = this.materialsStack.plate*5 + this.materialsStack.tape + this.materialsStack.glue
+
+      this.remains = this.materialsSingle.plate*5 + this.materialsSingle.tape + this.materialsSingle.glue
+    },
+    assembleFiveseven(){
+      this.gun = this.materialsStack.breechblock + this.materialsStack.barrel + this.materialsStack.pistolGrip + this.materialsStack.firingPin + this.materialsStack.hammer + this.materialsStack.lock + this.materialsStack.magazine + this.materialsStack.piston*2 + this.materialsStack.bearing + this.materialsStack.spring + this.materialsStack.glue + this.materialsStack.plate*3
+
+      this.remains = this.materialsSingle.breechblock + this.materialsSingle.barrel*2 + this.materialsSingle.pistolGrip + this.materialsSingle.firingPin*3 + this.materialsSingle.hammer + this.materialsSingle.lock*2 + this.materialsSingle.magazine + this.materialsSingle.piston*5 + this.materialsSingle.bearing*4 + this.materialsSingle.spring*3 + this.materialsSingle.glue + this.materialsSingle.plate*3
+    },
+    assembleP(){
+      this.gun = this.materialsStack.breechblock + this.materialsStack.barrel + this.materialsStack.pistolGrip + this.materialsStack.firingPin + this.materialsStack.hammer + this.materialsStack.lock + this.materialsStack.magazine + this.materialsStack.piston*2 + this.materialsStack.bearing + this.materialsStack.spring + this.materialsStack.glue + this.materialsStack.plate
+
+      this.remains = this.materialsSingle.breechblock + this.materialsSingle.barrel*2 + this.materialsSingle.pistolGrip + this.materialsSingle.firingPin + this.materialsSingle.hammer + this.materialsSingle.lock + this.materialsSingle.magazine + this.materialsSingle.piston*5 + this.materialsSingle.bearing*4 + this.materialsSingle.spring*3 + this.materialsSingle.glue + this.materialsSingle.plate
+    },
+    assembleScout(){
+      // this.gun = this.materialsStack.breechblock*2 + this.materialsStack.barrel + this.materialsStack.pistolGrip*2 + this.materialsStack.firingPin*2 + this.materialsStack.hammer + this.materialsStack.lock + this.materialsStack.magazine*3 + this.materialsStack.piston*3 + this.materialsStack.bearing*2 + this.materialsStack.spring + this.materialsStack.glue + this.materialsStack.plate* 
+
     },
 
     reset(){
@@ -199,8 +242,14 @@ export default {
       font-weight: 700
 
   .guns
-    display: flex  
+    display: grid
+    grid-template-columns: repeat(4, auto)
+    grid-template-rows: repeat(auto, auto)
     justify-content: center
+    grid-gap: 6px
+
+    .assemble
+      width: 100%
 
   .reset
     margin-top: 20px
