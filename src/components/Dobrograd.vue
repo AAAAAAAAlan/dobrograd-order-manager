@@ -153,7 +153,7 @@ export default {
    
 .dobrograd
   padding: 20px
-  user-select: none
+  // user-select: none
 
 
   .sliderParent
