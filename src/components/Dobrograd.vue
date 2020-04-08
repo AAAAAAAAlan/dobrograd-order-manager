@@ -1,23 +1,31 @@
 <template>
   <div class="dobrograd">
-    <div class="display">
-      <div class="cost"> Цена на продажу: <span>{{ Math.round(sellingPrice) }}</span> </div>
-      <div class="cost"> Себестоимость без учёта остатка деталей: {{ Math.round(gun) }}</div>
-      <div class="cost"> Себестоимость с учётом остатка деталей: {{ Math.round(remains) }} </div>
-      <div class="remain"> Останется деталей на сумму: {{ Math.round(gun) - Math.round(remains) }} </div>
+    <div class="shop">
+      <div class="display">
+        <div class="cost"> Цена на продажу: <span v-title="title"
+              @click="copy()"
+              v-clipboard:copy="Math.round(sellingPrice)"
+              v-clipboard:success="onCopy"
+              v-clipboard:error="onError"
+              @mouseleave="resetCopy()">{{ activeProduct ? Math.round(sellingPrice) : 0 }}</span> </div>
+        <div class="cost"> Себестоимость без учёта остатка деталей: {{activeProduct ?  activeProduct.costStack : 0}} </div>
+        <div class="cost"> Себестоимость с учётом остатка деталей: {{ activeProduct ?  activeProduct.costSingle : 0 }}  </div>
+        <div class="cost"> Останется деталей на сумму: {{ activeProduct ? (activeProduct.costStack - activeProduct.costSingle) : 0 }} </div>
+      </div>
+      <ul class="cart">
+          <li class="components">Glock 17</li>
+          <li class="components">Ствол: 2</li>
+          <li class="components">Ствол: 2</li>
+          <li class="components">Ствол: 2</li>
+          <li class="components">Ствол: 2</li>
+          <li class="components">Ствол: 2</li>
+          <li class="components">Ствол: 2</li>
+
+      </ul>
     </div>
     <p>Выбор крафта:</p>
     <div class="guns">
-      <div class="glock"><button @click="assembleGlock()" class="assemble">Glock17</button></div>
-      <div class="m3"><button @click="assembleShotgun()" class="assemble">M3 Super</button></div>
-      <div class="ak"><button @click="assembleAk()" class="assemble">AK47</button></div>
-      <div class="mac10"><button @click="assembleMac()" class="assemble">MAC10</button></div>
-      <div class="fiveseven"><button @click="assembleFiveseven()" class="assemble">Five Seven</button></div>
-      <div class="p228"><button @click="assembleP()" class="assemble">P228</button></div>
-      <div class="lockpick"><button @click="assembleLockpick()" class="assemble">Отмычка</button></div>
-      <div class="knife"><button @click="assembleKnife()" class="assemble">Ножик  </button></div>
-      <div class="light-vest"><button @click="assembleLightVest()" class="assemble">Лёгкий бронежилет</button></div>
-      <div class="vest"><button @click="assembleVest()" class="assemble">Бронежилет</button></div>
+      <button @click="assemble(index), resetSlider()" v-for="(product, index) in products" :key="index" class="assemble"> {{product.name}} </button>
     </div>
     <p>Добавить наценку:</p>
     <div class="sliderParent">
@@ -34,114 +42,206 @@
 export default {
   data: function(){
     return {
-      materialsSingle: {
-        breechblock: 2015/2, // Затвор 2015₽ = 2шт
-        barrel: 2015/2, // Ствол 2015₽ = 2шт
-        pistolGrip: 2015, // Рукоять 2015₽ = 1шт
-        hammer: 2015/8, // Курок 2015₽ = 8шт
-        magazine: 2015, // Магазин 2015₽ = 1шт
-        piston: 515/4, // Поршень 515₽ = 4шт
-        bearing: 515/5, // Ролик 515₽ = 5шт
-        spring: 515/10, // Пружина 515₽ = 10шт
-        glue: 35, // Клей 35₽ = 1шт
-        firingPin: 2015/5, // Ударник 2015₽ = 5шт
-        lock: 2015/5, // Стопор 2015₽ = 5шт
-        plate: 800, // Пластина 800₽ = 1шт
-        ironSight: 2015/8, // Мушка 2015₽ = 7шт
-        tape: 50, // Скотч 50₽ = 1шт
-        sight: 0 // ПОСТАВИТ ЦЕНУ!!!
-      },
-      materialsStack: {
-        breechblock: 2015, // Затвор 
-        barrel: 2015, // Ствол
-        pistolGrip: 2015, // Рукоять 
-        hammer: 2015, // Курок 
-        magazine: 2015, // Магазин 
-        piston: 515, // Поршень
-        bearing: 515, // Ролик
-        spring: 515, // Пружина 
-        glue: 35, // Клей
-        firingPin: 2015, // Ударник 
-        lock: 2015, // Стопор 
-        plate: 800, // Пластина
-        ironSight: 2015,   // Мушка
-        tape: 50 // Скотч 50₽ = 1шт
-      },
+      title: 'Щёлкни, чтобы скопировать', // v-title
+
       gun: 0,
       remains: 0,
       sellingPrice: 0,
-      percentage: 0,
+      percentage: 0, // починиЛ
       steps: [0, 25, 50, 75, 100],
+      activeProduct: 0,
+      isHidden: false,
+
+      // Crafting receipts + cost
+
+      products: [
+      {
+        name: 'Glock 17',
+        costStack: 11655,
+        costSingle: 6615,
+        barrel: 1,
+        breechblock: 2,
+        pistolGrip: 3,
+        hammer: 4,
+        magazine: 5,
+        piston: 6,
+        bearing: 7,
+        spring: 8,
+        glue: 9 
+      },
+      {
+        name: "M3 Super",
+        costStack: 29705,
+        costSingle: 24076,
+        barrel: 5,
+        breechblock: 1,
+        pistolGrip: 1,
+        hammer: 2,
+        magazine: 1,
+        piston: 1,
+        bearing: 1,
+        spring: 1,
+        glue: 1
+      },
+      {
+        name: "AK47",
+        costStack: 40165,
+        costSingle: 33664,
+        barrel: 5,
+        breechblock: 1,
+        pistolGrip: 1,
+        hammer: 1,
+        magazine: 8,
+        piston: 1,
+        bearing: 1,
+        spring: 1,
+        glue: 1
+      },
+      {
+        name: "MAC10",
+        costStack: 19815,
+        costSingle: 16031,
+        barrel: 5,
+        breechblock: 1,
+        pistolGrip: 1,
+        hammer: 1,
+        magazine: 2,
+        piston: 1,
+        bearing: 1,
+        spring: 1,
+        glue: 1
+      },
+      {
+        name: "Five Seven",
+        costStack: 18600,
+        costSingle: 12965,
+        barrel: 5,
+        breechblock: 1,
+        pistolGrip: 1,
+        hammer: 1,
+        magazine: 4,
+        piston: 1,
+        bearing: 1,
+        spring: 1,
+        glue: 1
+      },
+      {
+        name: "P228",
+        costStack: 17000,
+        costSingle: 10156,
+        barrel: 5,
+        breechblock: 1,
+        pistolGrip: 1,
+        hammer: 1,
+        magazine: 3,
+        piston: 3,
+        bearing: 1,
+        spring: 1,
+        glue: 1
+      },
+      {
+        name: "Отмычка",
+        costStack: 2850,
+        costSingle: 2850,
+        barrel: 5,
+        breechblock: 1,
+        pistolGrip: 1,
+        hammer: 1,
+        magazine: 6,
+        piston: 1,
+        bearing: 61,
+        spring: 1,
+        glue: 1
+      },
+      {
+        name: "Отмычка",
+        costStack: 4680,
+        costSingle: 3908,
+        barrel: 5,
+        breechblock: 1,
+        pistolGrip: 1,
+        hammer: 1,
+        magazine: 1,
+        piston: 1,
+        bearing: 1,
+        spring: 1,
+        glue: 1
+      },
+      {
+        name: "Лёгкий бронежилет",
+        costStack: 2485,
+        costSingle: 2485,
+        barrel: 5,
+        breechblock: 1,
+        pistolGrip: 1,
+        hammer: 1,
+        magazine: 1,
+        piston: 1,
+        bearing: 1,
+        spring: 1,
+        glue: 1
+      },
+      {
+        name: "Бронежилет",
+        costStack: 4085,
+        costSingle: 4085,
+        barrel: 5,
+        breechblock: 1,
+        pistolGrip: 1,
+        hammer: 1,
+        magazine: 1,
+        piston: 1,
+        bearing: 1,
+        spring: 1,
+        glue: 1
+      },
+      ], 
     }
   },
   watch: {
       gun(newValue){
-        this.sellingPrice = newValue;
+        this.activeProduct.costStack = newValue;
       },
       percentage(newValue){
-        this.sellingPrice = (this.gun * newValue/100) + this.gun
+        this.sellingPrice = (this.activeProduct.costStack * newValue/100) + this.activeProduct.costStack
       }
   },
 
   methods: {
-    assembleGlock(){
-      this.gun = this.materialsStack.barrel + this.materialsStack.breechblock + this.materialsStack.pistolGrip + this.materialsStack.hammer + this.materialsStack.magazine + this.materialsStack.piston + this.materialsStack.bearing + this.materialsStack.spring + this.materialsStack.glue
-
-      this.remains = this.materialsSingle.barrel + this.materialsSingle.breechblock + this.materialsSingle.pistolGrip + this.materialsSingle.hammer + this.materialsSingle.magazine + this.materialsSingle.piston + this.materialsSingle.bearing + this.materialsSingle.spring + this.materialsSingle.glue
-    },
-    assembleShotgun(){
-      this.gun = this.materialsStack.breechblock*2 + this.materialsStack.barrel*2 + this.materialsStack.pistolGrip*2 + this.materialsStack.firingPin*2 + this.materialsStack.hammer + this.materialsStack.lock*2 + this.materialsStack.magazine + this.materialsStack.piston*3 + this.materialsStack.bearing*2 + this.materialsStack.spring + this.materialsStack.glue + this.materialsStack.plate*3
-
-      this.remains = this.materialsSingle.breechblock*3 + this.materialsSingle.barrel*3 + this.materialsSingle.pistolGrip*2 + this.materialsSingle.firingPin*8 + this.materialsSingle.hammer + this.materialsSingle.lock*8 + this.materialsSingle.magazine + this.materialsSingle.piston*12 + this.materialsSingle.bearing*8 + this.materialsSingle.spring*8 + this.materialsSingle.glue*3 + this.materialsSingle.plate*3
-    },
-    assembleAk(){
-      this.gun = this.materialsStack.breechblock*2 + this.materialsStack.barrel*2 + this.materialsStack.pistolGrip*3 + this.materialsStack.firingPin*2 + this.materialsStack.hammer + this.materialsStack.lock*2 + this.materialsStack.magazine*3 + this.materialsStack.piston*3 + this.materialsStack.bearing*2 + this.materialsStack.spring + this.materialsStack.glue + this.materialsStack.plate*6 + this.materialsStack.ironSight
-
-      this.remains = this.materialsSingle.breechblock*3 + this.materialsSingle.barrel*3 + this.materialsSingle.pistolGrip*3 + this.materialsSingle.firingPin*8 + this.materialsSingle.hammer + this.materialsSingle.lock*8 + this.materialsSingle.magazine*3 + this.materialsSingle.piston*12 + this.materialsSingle.bearing*10 + this.materialsSingle.spring*8 + this.materialsSingle.glue + this.materialsSingle.plate*6 + this.materialsSingle.ironSight*4
-    },
-    assembleMac(){
-      this.gun = this.materialsStack.breechblock + this.materialsStack.barrel + this.materialsStack.pistolGrip + this.materialsStack.firingPin + this.materialsStack.hammer + this.materialsStack.lock + this.materialsStack.magazine + this.materialsStack.piston*2 + this.materialsStack.bearing + this.materialsStack.spring + this.materialsStack.glue + this.materialsStack.plate*2 + this.materialsStack.ironSight
-
-      this.remains = this.materialsSingle.breechblock*2 + this.materialsSingle.barrel*2 + this.materialsSingle.pistolGrip + this.materialsSingle.firingPin*5 + this.materialsSingle.hammer + this.materialsSingle.lock*5 + this.materialsSingle.magazine + this.materialsSingle.piston*8 + this.materialsSingle.bearing*5 + this.materialsSingle.spring*5 + this.materialsSingle.glue + this.materialsSingle.plate*2 + this.materialsSingle.ironSight
-    },
-    assembleLockpick(){
-      this.gun = this.materialsStack.plate + this.materialsStack.pistolGrip + this.materialsStack.glue
-
-      this.remains = this.materialsSingle.plate + this.materialsSingle.pistolGrip + this.materialsSingle.glue
-    },
-    assembleKnife(){
-      this.gun = this.materialsStack.plate*2 + this.materialsStack.pistolGrip + this.materialsStack.bearing + this.materialsStack.spring + this.materialsStack.glue
-
-      this.remains = this.materialsSingle.plate*2 + this.materialsSingle.pistolGrip + this.materialsSingle.bearing*2 + this.materialsSingle.spring + this.materialsSingle.glue
-    },
-    assembleLightVest(){
-      this.gun = this.materialsStack.plate*3 + this.materialsStack.tape + this.materialsStack.glue
-
-      this.remains = this.materialsSingle.plate*3 + this.materialsSingle.tape + this.materialsSingle.glue
-    },
-    assembleVest(){
-      this.gun = this.materialsStack.plate*5 + this.materialsStack.tape + this.materialsStack.glue
-
-      this.remains = this.materialsSingle.plate*5 + this.materialsSingle.tape + this.materialsSingle.glue
-    },
-    assembleFiveseven(){
-      this.gun = this.materialsStack.breechblock + this.materialsStack.barrel + this.materialsStack.pistolGrip + this.materialsStack.firingPin + this.materialsStack.hammer + this.materialsStack.lock + this.materialsStack.magazine + this.materialsStack.piston*2 + this.materialsStack.bearing + this.materialsStack.spring + this.materialsStack.glue + this.materialsStack.plate*3
-
-      this.remains = this.materialsSingle.breechblock + this.materialsSingle.barrel*2 + this.materialsSingle.pistolGrip + this.materialsSingle.firingPin*3 + this.materialsSingle.hammer + this.materialsSingle.lock*2 + this.materialsSingle.magazine + this.materialsSingle.piston*5 + this.materialsSingle.bearing*4 + this.materialsSingle.spring*3 + this.materialsSingle.glue + this.materialsSingle.plate*3
-    },
-    assembleP(){
-      this.gun = this.materialsStack.breechblock + this.materialsStack.barrel + this.materialsStack.pistolGrip + this.materialsStack.firingPin + this.materialsStack.hammer + this.materialsStack.lock + this.materialsStack.magazine + this.materialsStack.piston*2 + this.materialsStack.bearing + this.materialsStack.spring + this.materialsStack.glue + this.materialsStack.plate
-
-      this.remains = this.materialsSingle.breechblock + this.materialsSingle.barrel*2 + this.materialsSingle.pistolGrip + this.materialsSingle.firingPin + this.materialsSingle.hammer + this.materialsSingle.lock + this.materialsSingle.magazine + this.materialsSingle.piston*5 + this.materialsSingle.bearing*4 + this.materialsSingle.spring*3 + this.materialsSingle.glue + this.materialsSingle.plate
-    },
-    assembleScout(){
-      // this.gun = this.materialsStack.breechblock*2 + this.materialsStack.barrel + this.materialsStack.pistolGrip*2 + this.materialsStack.firingPin*2 + this.materialsStack.hammer + this.materialsStack.lock + this.materialsStack.magazine*3 + this.materialsStack.piston*3 + this.materialsStack.bearing*2 + this.materialsStack.spring + this.materialsStack.glue + this.materialsStack.plate* 
-
+    assemble(index){
+      this.activeProduct = this.products[index]
+      this.sellingPrice = this.products[index].costStack
     },
 
+    copy(){
+      this.title = 'Скопировано!'
+    },
+
+    resetCopy(){
+      setTimeout(() => {
+        this.title = 'Щёлкни, чтобы скопировать'
+      }, 2000);
+    },
+
+    
+
+    // vue-clipboard2 
+    onCopy: function (e) {
+      // alert('You just copied: ' + e.text)
+      console.log(e)
+    },
+    onError: function (e) {
+      // alert('Failed to copy texts')
+      console.log(e)
+    },
+    
     reset(){
       this.gun = 0;
       this.remains = 0;
+      this.percentage = 0;
+      this.activeProduct = 0;
+    },
+    resetSlider(){
       this.percentage = 0;
     }
   }
@@ -152,9 +252,56 @@ export default {
 <style scoped lang="sass">
    
 .dobrograd
-  padding: 20px
-  // user-select: none
+  margin-top: 40px
+  user-select: none
 
+  .shop
+    display: grid
+    grid-template-columns: repeat(2, auto)
+    grid-gap: 30px
+
+    margin: 0 auto
+    width: 80%
+    max-width: 800px
+
+    .cart
+      display: grid
+      grid-template-columns: repeat(2, auto)
+      grid-template-rows: repeat(2, auto)
+      border: 1px solid black
+      background-color: #eeeeee
+      font-weight: 600
+      // text-align: center
+      list-style-type: none
+      padding: 0
+      margin: 0
+      text-align: center
+
+      
+      
+
+      li
+        padding: 5px
+        margin: 0
+
+        &:first-of-type
+          font-weight: 700
+          grid-column-start: 1
+          grid-column-end: 3
+          text-align: center
+          color: #554455
+          background-color: #dbdbdb
+          border-radius: 0px
+
+    .display
+      // max-width: 400px
+
+      padding: 15px // ПОЧИНИТЬ PADDING ПРИ ДОБАВЛЕНИИ ЭЛЕМЕНТОВ li 
+      border: 1px solid black
+      text-align: center
+      background-color: #eeeeee
+      font-weight: 600
+      
 
   .sliderParent
     display: flex
@@ -223,23 +370,17 @@ export default {
     text-align: center
     margin: 10px
     font-weight: 500
+    
   .charge
     display: flex  
     justify-content: center
 
-  .display
-    margin: 0 auto
-    padding: 10px
-    border: 1px solid black
-    text-align: center
-    background-color: #eeeeee
-    width: 100%
-    max-width: 400px
-    font-weight: 600
 
     span
       color: #554455
       font-weight: 700
+      // user-select: all
+
 
   .guns
     display: grid
