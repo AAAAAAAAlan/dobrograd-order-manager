@@ -24,6 +24,12 @@
           <li class="components">Ствол: 2</li>
           <li class="components">Ствол: 2</li>
           <li class="components">Ствол: 2</li>
+          <li class="components">Ствол: 2</li>
+          <li class="components">Ствол: 2</li>
+          <li class="components">Ствол: 2</li>
+          <li class="components">Ствол: 2</li>
+          <li class="components">Ствол: 2</li>
+          <li class="components">Ствол: 2</li>
 
       </ul>
     </div>
@@ -86,8 +92,6 @@ export default {
   },
 
   methods: {
-    // НА КАЖДЫЙ КЛАСС ОРУЖИЯ ТУТ ПО ФУНКЦИИ ТАК ДЕЛАТЬ НЕЛЬЗЯ НАДО ИСПРАВИТЬ
-
     assemble(name, index){
       // this.products.pistols и this.products['pistols'] = одно и то же this.products.name
       // let activeProduct = 'pisotl'
@@ -104,7 +108,7 @@ export default {
     resetCopy(){
       setTimeout(() => {
         this.title = 'Щёлкни, чтобы скопировать'
-      }, 2000);
+      }, 1000);
     },
 
     
@@ -143,13 +147,47 @@ $dobrograd-white: #eeeeee
   grid-template-rows: repeat(2, auto)
   justify-content: center
   grid-gap: 30px
+  margin-top: 40px
 
   .display
-    text-align: center
-    padding-top: 20px
     font-weight: 600
+    border: 1px solid black
+    text-align: center
+    background-color: $dobrograd-white
+    font-weight: 600
+    max-height: 181px
+    
+    span
+      font-weight: 700
+      color: $dobrograd-purple
+      cursor: pointer
+
 
   .components
+    font-weight: 600
+    border: 1px solid black
+    text-align: center
+    background-color: $dobrograd-white
+    font-weight: 600
+    max-height: 181px
+    min-width: 
+
+    .cart
+      margin: 0
+      padding: 5px 10px  
+      display: flex
+      flex-direction: column
+      flex-wrap: wrap
+      max-height: 181px
+
+      &::first-child
+
+
+      .components
+        // padding: 5px
+        list-style-type: none
+        border: none
+        text-align: left
 
   .guns
     display: grid
