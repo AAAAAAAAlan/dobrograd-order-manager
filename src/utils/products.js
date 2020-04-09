@@ -1,0 +1,156 @@
+const products = {
+  pistols: [
+    {
+      name: 'Glock 17',
+      costStack: 11655,
+      costSingle: 6615,
+      barrel: 1,
+      breechblock: 2,
+      pistolGrip: 3,
+      hammer: 4,
+      magazine: 5,
+      piston: 6,
+      bearing: 7,
+      spring: 8,
+      glue: 9 
+    },
+    {
+      name: "P228",
+      costStack: 17000,
+      costSingle: 10156,
+      barrel: 5,
+      breechblock: 1,
+      pistolGrip: 1,
+      hammer: 1,
+      magazine: 3,
+      piston: 3,
+      bearing: 1,
+      spring: 1,
+      glue: 1
+    },
+    {
+      name: "Five Seven",
+      costStack: 18600,
+      costSingle: 12965,
+      barrel: 5,
+      breechblock: 1,
+      pistolGrip: 1,
+      hammer: 1,
+      magazine: 4,
+      piston: 1,
+      bearing: 1,
+      spring: 1,
+      glue: 1
+    },
+  ],
+  smgs: [
+    {
+      name: "MAC10",
+      costStack: 19815,
+      costSingle: 16031,
+      barrel: 5,
+      breechblock: 1,
+      pistolGrip: 1,
+      hammer: 1,
+      magazine: 2,
+      piston: 1,
+      bearing: 1,
+      spring: 1,
+      glue: 1
+    },
+  ],
+  shotguns: [
+    {
+      name: "M3 Super",
+      costStack: 29705,
+      costSingle: 24076,
+      barrel: 5,
+      breechblock: 1,
+      pistolGrip: 1,
+      hammer: 2,
+      magazine: 1,
+      piston: 1,
+      bearing: 1,
+      spring: 1,
+      glue: 1
+    },
+  ],
+  rifles: [
+    {
+      name: "AK47",
+      costStack: 40165,
+      costSingle: 33664,
+      barrel: 5,
+      breechblock: 1,
+      pistolGrip: 1,
+      hammer: 1,
+      magazine: 8,
+      piston: 1,
+      bearing: 1,
+      spring: 1,
+      glue: 1
+    },
+  ],
+  snipers: [
+    {
+      name: "Scout",
+      costStack: 40165,
+      costSingle: 33664,
+      barrel: 5,
+      breechblock: 1,
+      pistolGrip: 1,
+      hammer: 1,
+      magazine: 8,
+      piston: 1,
+      bearing: 1,
+      spring: 1,
+      glue: 1
+    },
+  ],
+  tools: [
+    {
+      name: "Отмычка",
+      costStack: 2850,
+      costSingle: 2850,
+      barrel: 5,
+      breechblock: 1,
+      pistolGrip: 1,
+      hammer: 1,
+      magazine: 6,
+      piston: 1,
+      bearing: 61,
+      spring: 1,
+      glue: 1
+    },
+    {
+      name: "Лёгкий бронежилет",
+      costStack: 2485,
+      costSingle: 2485,
+      barrel: 5,
+      breechblock: 1,
+      pistolGrip: 1,
+      hammer: 1,
+      magazine: 1,
+      piston: 1,
+      bearing: 1,
+      spring: 1,
+      glue: 1
+    },
+    {
+      name: "Бронежилет",
+      costStack: 4085,
+      costSingle: 4085,
+      barrel: 5,
+      breechblock: 1,
+      pistolGrip: 1,
+      hammer: 1,
+      magazine: 1,
+      piston: 1,
+      bearing: 1,
+      spring: 1,
+      glue: 1
+    },
+  ],
+}
+
+export default products

@@ -21,46 +21,16 @@
 
     <div class="guns">
       <div v-for="(gunClass, index) in gunClasses" :key="index" class="guns-class">{{gunClass}}</div>
-      <div class="pistols">
+      <!-- Первый цикл идет по всем полям объекта products в data (pistols, smgs итд) -->
+      <div 
+        v-for="(typeValue, typeName) in products" 
+        :key="typeName" 
+        :class="typeName">
+        <!-- Второй цикл идет по всем элементам массива внутри типа (pistols[0], pistols[1], pistols[2] итд) -->
         <button 
-        @click="assemble(index), resetSlider()" 
-        v-for="(pistol, index) in pistols" 
-        :key="index" class="assemble"> {{pistol.name}}
-        </button>
-      </div>
-      <div class="smgs">
-        <button 
-        @click="assemble(index), resetSlider()" 
-        v-for="(smg, index) in smgs" 
-        :key="index" class="assemble"> {{smg.name}}
-        </button>
-      </div>
-      <div class="shotguns">
-        <button 
-        @click="assemble(index), resetSlider()" 
-        v-for="(shotgun, index) in shotguns" 
-        :key="index" class="assemble"> {{shotgun.name}}
-        </button>
-      </div>
-      <div class="rifles">
-        <button 
-        @click="assemble(index), resetSlider()" 
-        v-for="(rifle, index) in rifles" 
-        :key="index" class="assemble"> {{rifle.name}}
-        </button>
-      </div>
-      <div class="snipers">
-        <button 
-        @click="assemble(index), resetSlider()" 
-        v-for="(sniper, index) in snipers" 
-        :key="index" class="assemble"> {{sniper.name}}
-        </button>
-      </div>
-      <div class="tools">
-        <button 
-        @click="assemble(index), resetSlider()" 
-        v-for="(tool, index) in tools" 
-        :key="index" class="assemble"> {{tool.name}}
+          v-for="(product, index) in typeValue" 
+          @click="assemble(typeName, index), resetSlider()" 
+          :key="index" class="assemble"> {{ product.name }}
         </button>
       </div>
     </div>
@@ -74,6 +44,8 @@
 </template>
 
 <script>
+import products from '../utils/products.js'
+
 export default {
   data(){
     return {
@@ -86,164 +58,14 @@ export default {
       steps: [0, 25, 50, 75, 100],
       activeProduct: 0,
       isHidden: false,
-
+      products: null,
       gunClasses: ['Пистолеты', 'Пистолеты-Пулемёты', 'Дробовики', 'Автоматические винтовки', 'Снайперские винтовки', 'Инструменты и броня'],
 
       // Crafting receipts + cost (receipts unfinished)
-
-      pistols: [
-      {
-        name: 'Glock 17',
-        costStack: 11655,
-        costSingle: 6615,
-        barrel: 1,
-        breechblock: 2,
-        pistolGrip: 3,
-        hammer: 4,
-        magazine: 5,
-        piston: 6,
-        bearing: 7,
-        spring: 8,
-        glue: 9 
-      },
-      {
-        name: "P228",
-        costStack: 17000,
-        costSingle: 10156,
-        barrel: 5,
-        breechblock: 1,
-        pistolGrip: 1,
-        hammer: 1,
-        magazine: 3,
-        piston: 3,
-        bearing: 1,
-        spring: 1,
-        glue: 1
-      },
-      {
-        name: "Five Seven",
-        costStack: 18600,
-        costSingle: 12965,
-        barrel: 5,
-        breechblock: 1,
-        pistolGrip: 1,
-        hammer: 1,
-        magazine: 4,
-        piston: 1,
-        bearing: 1,
-        spring: 1,
-        glue: 1
-      },
-     ],
-    smgs: [
-      {
-        name: "MAC10",
-        costStack: 19815,
-        costSingle: 16031,
-        barrel: 5,
-        breechblock: 1,
-        pistolGrip: 1,
-        hammer: 1,
-        magazine: 2,
-        piston: 1,
-        bearing: 1,
-        spring: 1,
-        glue: 1
-      },
-     ],
-    shotguns: [
-      {
-        name: "M3 Super",
-        costStack: 29705,
-        costSingle: 24076,
-        barrel: 5,
-        breechblock: 1,
-        pistolGrip: 1,
-        hammer: 2,
-        magazine: 1,
-        piston: 1,
-        bearing: 1,
-        spring: 1,
-        glue: 1
-      },
-     ],
-    rifles: [
-      {
-        name: "AK47",
-        costStack: 40165,
-        costSingle: 33664,
-        barrel: 5,
-        breechblock: 1,
-        pistolGrip: 1,
-        hammer: 1,
-        magazine: 8,
-        piston: 1,
-        bearing: 1,
-        spring: 1,
-        glue: 1
-      },
-     ],
-    snipers: [
-      {
-        name: "Scout",
-        costStack: 40165,
-        costSingle: 33664,
-        barrel: 5,
-        breechblock: 1,
-        pistolGrip: 1,
-        hammer: 1,
-        magazine: 8,
-        piston: 1,
-        bearing: 1,
-        spring: 1,
-        glue: 1
-      },
-     ],
-    tools: [
-      {
-        name: "Отмычка",
-        costStack: 2850,
-        costSingle: 2850,
-        barrel: 5,
-        breechblock: 1,
-        pistolGrip: 1,
-        hammer: 1,
-        magazine: 6,
-        piston: 1,
-        bearing: 61,
-        spring: 1,
-        glue: 1
-      },
-      {
-        name: "Лёгкий бронежилет",
-        costStack: 2485,
-        costSingle: 2485,
-        barrel: 5,
-        breechblock: 1,
-        pistolGrip: 1,
-        hammer: 1,
-        magazine: 1,
-        piston: 1,
-        bearing: 1,
-        spring: 1,
-        glue: 1
-      },
-      {
-        name: "Бронежилет",
-        costStack: 4085,
-        costSingle: 4085,
-        barrel: 5,
-        breechblock: 1,
-        pistolGrip: 1,
-        hammer: 1,
-        magazine: 1,
-        piston: 1,
-        bearing: 1,
-        spring: 1,
-        glue: 1
-      },
-     ],
     }
+  },
+  created () {
+    this.products = products
   },
   watch: {
       gun(newValue){
@@ -255,9 +77,15 @@ export default {
   },
 
   methods: {
-    assemble(index){
-      this.activeProduct = this.products[index]
-      this.sellingPrice = this.products[index].costStack
+    // НА КАЖДЫЙ КЛАСС ОРУЖИЯ ТУТ ПО ФУНКЦИИ ТАК ДЕЛАТЬ НЕЛЬЗЯ НАДО ИСПРАВИТЬ
+
+    assemble(name, index){
+      // this.products.pistols и this.products['pistols'] = одно и то же this.products.name
+      // let activeProduct = 'pisotl'
+      // this.activeProduct и activeProduct  - разные вещи
+      this.activeProduct = this.products[name][index]
+      this.sellingPrice = this.products[name][index].costStack
+      console.log(this.sellingPrice)
     },
 
     copy(){
