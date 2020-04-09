@@ -1,17 +1,12 @@
 <template>
-  <div class="dobrograd">
-    <div class="shop">
-      <div class="display">
-        <div class="cost"> Цена на продажу: <span v-title="title"
-              @click="copy()"
-              v-clipboard:copy="Math.round(sellingPrice)"
-              v-clipboard:success="onCopy"
-              v-clipboard:error="onError"
-              @mouseleave="resetCopy()">{{ activeProduct ? Math.round(sellingPrice) : 0 }}</span> </div>
-        <div class="cost"> Себестоимость без учёта остатка деталей: {{activeProduct ?  activeProduct.costStack : 0}} </div>
-        <div class="cost"> Себестоимость с учётом остатка деталей: {{ activeProduct ?  activeProduct.costSingle : 0 }}  </div>
-        <div class="cost"> Останется деталей на сумму: {{ activeProduct ? (activeProduct.costStack - activeProduct.costSingle) : 0 }} </div>
-      </div>
+  <div class="shop">
+    <div class="display">
+      <p class="cost">Себестоимость без учёта остатка деталей:</p>
+      <p class="cost">Себестоимость с учётом остатка деталей: </p>
+      <p class="cost">Останется деталей на сумму:</p>
+    </div>
+
+    <div class="components">
       <ul class="cart">
           <li class="components">Glock 17</li>
           <li class="components">Ствол: 2</li>
@@ -23,38 +18,80 @@
 
       </ul>
     </div>
-    <p>Выбор крафта:</p>
+
     <div class="guns">
-      <button @click="assemble(index), resetSlider()" v-for="(product, index) in products" :key="index" class="assemble"> {{product.name}} </button>
-    </div>
-    <p>Добавить наценку:</p>
-    <div class="sliderParent">
-      <input v-model="percentage" step="25" type="range" min="0" max="100" value="50" class="slider">
-      <div class="steps">
-        <div @click="percentage=step" v-for="step in steps" :key="step" class="step">{{step}}</div>
+      <div v-for="(gunClass, index) in gunClasses" :key="index" class="guns-class">{{gunClass}}</div>
+      <div class="pistols">
+        <button 
+        @click="assemble(index), resetSlider()" 
+        v-for="(pistol, index) in pistols" 
+        :key="index" class="assemble"> {{pistol.name}}
+        </button>
+      </div>
+      <div class="smgs">
+        <button 
+        @click="assemble(index), resetSlider()" 
+        v-for="(smg, index) in smgs" 
+        :key="index" class="assemble"> {{smg.name}}
+        </button>
+      </div>
+      <div class="shotguns">
+        <button 
+        @click="assemble(index), resetSlider()" 
+        v-for="(shotgun, index) in shotguns" 
+        :key="index" class="assemble"> {{shotgun.name}}
+        </button>
+      </div>
+      <div class="rifles">
+        <button 
+        @click="assemble(index), resetSlider()" 
+        v-for="(rifle, index) in rifles" 
+        :key="index" class="assemble"> {{rifle.name}}
+        </button>
+      </div>
+      <div class="snipers">
+        <button 
+        @click="assemble(index), resetSlider()" 
+        v-for="(sniper, index) in snipers" 
+        :key="index" class="assemble"> {{sniper.name}}
+        </button>
+      </div>
+      <div class="tools">
+        <button 
+        @click="assemble(index), resetSlider()" 
+        v-for="(tool, index) in tools" 
+        :key="index" class="assemble"> {{tool.name}}
+        </button>
       </div>
     </div>
-    <div @click="reset" class="reset"><button>СБРОСИТЬ</button></div>
+
+    <div class="cart">
+      <p class="cost">Lorem ipsum dolor sit amet consectetur</p>
+      <p class="cost">adipisicing elit. Unde doloribus esse at </p>
+      <p class="cost">sint amet provident reiciendis pariatur rem</p>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
-  data: function(){
+  data(){
     return {
       title: 'Щёлкни, чтобы скопировать', // v-title
 
       gun: 0,
       remains: 0,
       sellingPrice: 0,
-      percentage: 0, // починиЛ
+      percentage: 0, 
       steps: [0, 25, 50, 75, 100],
       activeProduct: 0,
       isHidden: false,
 
-      // Crafting receipts + cost
+      gunClasses: ['Пистолеты', 'Пистолеты-Пулемёты', 'Дробовики', 'Автоматические винтовки', 'Снайперские винтовки', 'Инструменты и броня'],
 
-      products: [
+      // Crafting receipts + cost (receipts unfinished)
+
+      pistols: [
       {
         name: 'Glock 17',
         costStack: 11655,
@@ -70,43 +107,15 @@ export default {
         glue: 9 
       },
       {
-        name: "M3 Super",
-        costStack: 29705,
-        costSingle: 24076,
-        barrel: 5,
-        breechblock: 1,
-        pistolGrip: 1,
-        hammer: 2,
-        magazine: 1,
-        piston: 1,
-        bearing: 1,
-        spring: 1,
-        glue: 1
-      },
-      {
-        name: "AK47",
-        costStack: 40165,
-        costSingle: 33664,
+        name: "P228",
+        costStack: 17000,
+        costSingle: 10156,
         barrel: 5,
         breechblock: 1,
         pistolGrip: 1,
         hammer: 1,
-        magazine: 8,
-        piston: 1,
-        bearing: 1,
-        spring: 1,
-        glue: 1
-      },
-      {
-        name: "MAC10",
-        costStack: 19815,
-        costSingle: 16031,
-        barrel: 5,
-        breechblock: 1,
-        pistolGrip: 1,
-        hammer: 1,
-        magazine: 2,
-        piston: 1,
+        magazine: 3,
+        piston: 3,
         bearing: 1,
         spring: 1,
         glue: 1
@@ -125,20 +134,72 @@ export default {
         spring: 1,
         glue: 1
       },
+     ],
+    smgs: [
       {
-        name: "P228",
-        costStack: 17000,
-        costSingle: 10156,
+        name: "MAC10",
+        costStack: 19815,
+        costSingle: 16031,
         barrel: 5,
         breechblock: 1,
         pistolGrip: 1,
         hammer: 1,
-        magazine: 3,
-        piston: 3,
+        magazine: 2,
+        piston: 1,
         bearing: 1,
         spring: 1,
         glue: 1
       },
+     ],
+    shotguns: [
+      {
+        name: "M3 Super",
+        costStack: 29705,
+        costSingle: 24076,
+        barrel: 5,
+        breechblock: 1,
+        pistolGrip: 1,
+        hammer: 2,
+        magazine: 1,
+        piston: 1,
+        bearing: 1,
+        spring: 1,
+        glue: 1
+      },
+     ],
+    rifles: [
+      {
+        name: "AK47",
+        costStack: 40165,
+        costSingle: 33664,
+        barrel: 5,
+        breechblock: 1,
+        pistolGrip: 1,
+        hammer: 1,
+        magazine: 8,
+        piston: 1,
+        bearing: 1,
+        spring: 1,
+        glue: 1
+      },
+     ],
+    snipers: [
+      {
+        name: "Scout",
+        costStack: 40165,
+        costSingle: 33664,
+        barrel: 5,
+        breechblock: 1,
+        pistolGrip: 1,
+        hammer: 1,
+        magazine: 8,
+        piston: 1,
+        bearing: 1,
+        spring: 1,
+        glue: 1
+      },
+     ],
+    tools: [
       {
         name: "Отмычка",
         costStack: 2850,
@@ -150,20 +211,6 @@ export default {
         magazine: 6,
         piston: 1,
         bearing: 61,
-        spring: 1,
-        glue: 1
-      },
-      {
-        name: "Отмычка",
-        costStack: 4680,
-        costSingle: 3908,
-        barrel: 5,
-        breechblock: 1,
-        pistolGrip: 1,
-        hammer: 1,
-        magazine: 1,
-        piston: 1,
-        bearing: 1,
         spring: 1,
         glue: 1
       },
@@ -195,7 +242,7 @@ export default {
         spring: 1,
         glue: 1
       },
-      ], 
+     ],
     }
   },
   watch: {
@@ -250,151 +297,51 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="sass">
-   
-.dobrograd
-  margin-top: 40px
-  user-select: none
+$dobrograd-purple: #554455
+$dobrograd-white: #eeeeee
 
-  .shop
-    display: grid
-    grid-template-columns: repeat(2, auto)
-    grid-gap: 30px
+.shop
+  display: grid
+  grid-template-columns: repeat(2, auto)
+  grid-template-rows: repeat(2, auto)
+  justify-content: center
+  grid-gap: 30px
 
-    margin: 0 auto
-    width: 80%
-    max-width: 800px
-
-    .cart
-      display: grid
-      grid-template-columns: repeat(2, auto)
-      grid-template-rows: repeat(2, auto)
-      border: 1px solid black
-      background-color: #eeeeee
-      font-weight: 600
-      // text-align: center
-      list-style-type: none
-      padding: 0
-      margin: 0
-      text-align: center
-
-      
-      
-
-      li
-        padding: 5px
-        margin: 0
-
-        &:first-of-type
-          font-weight: 700
-          grid-column-start: 1
-          grid-column-end: 3
-          text-align: center
-          color: #554455
-          background-color: #dbdbdb
-          border-radius: 0px
-
-    .display
-      // max-width: 400px
-
-      padding: 15px // ПОЧИНИТЬ PADDING ПРИ ДОБАВЛЕНИИ ЭЛЕМЕНТОВ li 
-      border: 1px solid black
-      text-align: center
-      background-color: #eeeeee
-      font-weight: 600
-      
-
-  .sliderParent
-    display: flex
-    justify-content: center
-    flex-direction: column
-    width: 100%
-    max-width: 350px
-    margin: 0 auto
-
-    .steps
-      display: flex
-      justify-content: space-between
-      margin-top: 7px
-
-      .step
-        margin-left: 6.5px
-        cursor: pointer
-        font-weight: 500
-        &:hover
-          border-radius: 6px
-          background-color: #554455
-          color: #eeeeee
-    
-    .slider
-      appearance: none
-      padding: 0 5px
-      height: 15px
-      background: #554455
-      outline: none
-      border-radius: 6px
-    
-    .slider::-webkit-slider-thumb 
-      appearance: none
-      width: 8px
-      height: 30px
-      background: #eeeeee
-      cursor: pointer
-      border-radius: 6px
-      border: 1px solid black
-
-
-
-  button
-    box-shadow: inset 0px 1px 0px 0px #ffffff
-    background-color: #554455
-    border-radius: 6px
-    border: none
-    display: inline-block
-    cursor: pointer
-    color: #eeeeee
-    font-size: 15px
-    font-weight: bold
-    padding: 6px 24px
-    text-decoration: none
-    box-shadow: none
-    margin: 0 5px
-    outline: none
-
-    &:hover
-      background-color: #665066
-    
-    &:active
-      background-color: #3d303d
-    
-  p
+  .display
     text-align: center
-    margin: 10px
-    font-weight: 500
-    
-  .charge
-    display: flex  
-    justify-content: center
+    padding-top: 20px
+    font-weight: 600
 
-
-    span
-      color: #554455
-      font-weight: 700
-      // user-select: all
-
+  .components
 
   .guns
     display: grid
-    grid-template-columns: repeat(4, auto)
-    grid-template-rows: repeat(auto, auto)
-    justify-content: center
-    grid-gap: 6px
+    grid-template-columns: repeat(6, auto)
+    grid-template-rows: repeat(2, auto)
+    grid-gap: 5px
 
     .assemble
+      display: block  
+      margin-top: 10px
       width: 100%
+      background-color: $dobrograd-purple
+      color: $dobrograd-white
+      box-shadow: inset 0px 1px 0px 0px #ffffff
+      border-radius: 8px
+      border: none
+      cursor: pointer
+      font-size: 15px
+      font-weight: 600
+      padding: 6px
+      box-shadow: none
+      margin: 5px
+      outline: none
 
-  .reset
-    margin-top: 20px
-    display: flex
-    justify-content: center
+    .guns-class
+      padding: 10px
+      text-align: center
+
+
+
 
 </style>
