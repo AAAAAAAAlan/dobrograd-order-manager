@@ -1,6 +1,15 @@
 <template>
   <div class="shop">
     <div class="display">
+      <p class="cost">Цена на продажу:
+       <span v-title="title"
+              @click="copy()"
+              v-clipboard:copy="Math.round(sellingPrice)"
+              v-clipboard:success="onCopy"
+              v-clipboard:error="onError"
+              @mouseleave="resetCopy()">{{ activeProduct ? Math.round(sellingPrice) : 0 }}
+        </span>
+      </p>
       <p class="cost">Себестоимость без учёта остатка деталей:</p>
       <p class="cost">Себестоимость с учётом остатка деталей: </p>
       <p class="cost">Останется деталей на сумму:</p>
