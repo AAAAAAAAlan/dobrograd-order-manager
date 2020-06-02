@@ -6,10 +6,23 @@
        <img @click="resetCart()" class="logo" src="https://img.icons8.com/small/32/000000/recurring-appointment.png"/>
       </div>
       <p class="total"> {{ `$${orderSum}` }} </p>
-      <p v-for="(weapon, name) in weaponObject" v-bind:key="name" class="order"> {{`${name} x ${weapon}`}} </p>
+      <div class="weapons-order">
+        <p v-for="(weapon, name) in weaponObject" v-bind:key="name" class="order"> {{`${name} x${weapon}`}} </p>
+        <p class="order-none" v-if="Object.keys(weaponObject).length === 0">НЕТ ТОВАРОВ</p>
+      </div>
+      <div class="add-buyer">
+        <input placeholder="Стив Хьюис" v-model="buyerName" class="buyer-name" type="text">
+        <img class="logo" src="https://img.icons8.com/material-rounded/24/000000/add.png"/>
+      </div>
     </div>
+
+    <div class="orders-container">
+      <p class="orders-header">СПИСОК ЗАКАЗОВ</p>
+      <p  class="orders"></p>
+    </div>
+
     <h1 class="product-list-header">ТОВАРЫ</h1>
-    <input v-model="search" type="text" class="product-search">
+    <input placeholder="Введите название оружия" v-model="search" type="text" class="product-search">
     <div class="product-list">
       <div v-for="gun in filteredGuns" v-bind:key="gun.name" class="product">
          {{`${gun.name} — ${gun.price}`}} 
@@ -29,7 +42,8 @@ export default {
       orderSum: 0,
       order: 'НЕТ ТОВАРОВ',
       weaponObject: {},
-      search: ''
+      search: '',
+      buyerName: '',
     }
   },
 
@@ -108,11 +122,62 @@ $dobrograd-grey: #dbdbdb;
         padding-left: 23px;
         font-weight: 600;
       }
+
+      .weapons-order{
+        display: flex;
+        align-content: stretch;
+        .order{
+          padding: 5px;
+          // padding-left: 20px;
+          font-size: 8pt;
+        }
+        .order-none{
+          padding: 5px;
+          // padding-left: 20px;
+          font-size: 8pt;
+        }
+      }
       
-      .order{
+      .add-buyer{
+        display: flex;
+        justify-content: center;
+        .buyer-name{
+          width: 100%;
+          border-radius: 10px 10px 10px 10px;
+          background-color: $dobrograd-white;
+          outline: none;
+          box-shadow: none;
+          border: none;
+          padding: 5px;
+          margin-right: 10px;
+        }
+        .submit-order{
+          border-radius: 10px 10px 10px 10px;
+          background-color: #8C7D8C;
+          padding: 5;
+          font-size: 12pt;
+        }
+        .logo{
+          filter: invert(1);
+          padding-right: 5px;
+          cursor: pointer;
+        }
+      }
+    }
+
+    .orders-container{
+      background-color: $dobrograd-purple;
+      color: $dobrograd-white;
+      margin: 10px;
+      border-radius: 10px 10px 10px 10px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+      padding: 5px;
+
+      .orders-header{
         padding: 5px;
         padding-left: 20px;
-        font-size: 8pt;
+        font-size: 10pt;
+        text-transform: uppercase;
       }
     }
 
