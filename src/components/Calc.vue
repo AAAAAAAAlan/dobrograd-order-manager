@@ -30,7 +30,7 @@
 
     <h1 class="product-list-header">ТОВАРЫ</h1>
     <input placeholder="Введите название оружия" v-model="search" type="text" class="product-search">
-    <div class="product-list">
+    <div class="product-list" :style="{ height: `${productsListHeight}px` }" ref="product-list">
       <div v-for="gun in filteredGuns" v-bind:key="gun.name" class="products">
         <p class="product">{{`${gun.name} — ${gun.price}₽`}}</p>
         <img class="add-to-cart" @click="addToCart(gun), addToOrder(gun)" src="https://img.icons8.com/ios-glyphs/30/000000/add-to-basket.png"/>
@@ -53,10 +53,18 @@ export default {
       buyerName: '',
       orders: [],
       range: 0,
-      extraChargePercents: [25, 50, 70, 100]
+      extraChargePercents: [25, 50, 70, 100],
+      productsListHeight: 900
     }
   },
-
+  watch: {
+    orders () {
+      this.updateProductListHeight(20)
+    }
+  },
+  mounted () {
+    this.updateProductListHeight()
+  },
   methods: {
     addToCart(gun){
       this.orderSum = this.orderSum + gun.price
@@ -65,6 +73,9 @@ export default {
       this.orderSum = 0
       this.weaponObject = {}
       this.buyerName = ''
+    },
+    updateProductListHeight (additionalMargin = 10) {
+      this.productsListHeight = window.innerHeight - this.$refs['product-list'].offsetTop - additionalMargin
     },
     addToOrder(gun){
       this.order = gun.name
@@ -222,6 +233,8 @@ $dobrograd-grey: #dbdbdb;
       border-radius: 10px 10px 10px 10px;
       box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
       padding: 5px;
+      max-height: 250px;
+      overflow-y: scroll;
 
       .orders-header{
         padding: 5px;
@@ -266,7 +279,6 @@ $dobrograd-grey: #dbdbdb;
     }
 
     .product-list{
-      height: 532px;
       overflow-y: scroll;
       .products{
         background-color: $dobrograd-purple;
