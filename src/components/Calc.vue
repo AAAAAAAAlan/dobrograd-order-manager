@@ -32,7 +32,7 @@
     <input placeholder="Введите название оружия" v-model="search" type="text" class="product-search">
     <div class="product-list">
       <div v-for="gun in filteredGuns" v-bind:key="gun.name" class="products">
-        <p class="product">{{`${gun.name} — ${gun.price}`}}</p>
+        <p class="product">{{`${gun.name} — ${gun.price}₽`}}</p>
         <img class="add-to-cart" @click="addToCart(gun), addToOrder(gun)" src="https://img.icons8.com/ios-glyphs/30/000000/add-to-basket.png"/>
       </div>
     </div>
