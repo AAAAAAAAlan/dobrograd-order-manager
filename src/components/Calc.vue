@@ -78,7 +78,7 @@ export default {
       var curOrder = this.weaponObject
       var curOrderString = JSON.stringify(curOrder)
       curOrderString = curOrderString.replace(reg, '')
-      var newOrder = `Имя: ${this.buyerName} Заказ: ${curOrderString} Сумма: ${this.orderSum}`
+      var newOrder = `Имя: ${this.buyerName} | Заказ: ${curOrderString} | Сумма: ${this.orderSum}`
       this.orders.push(newOrder)
     },
     removeOrder(index){
