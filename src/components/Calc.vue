@@ -5,7 +5,11 @@
        <p class="order-sum">Сумма заказа</p>
        <img @click="resetCart()" class="logo" src="https://img.icons8.com/small/32/000000/recurring-appointment.png"/>
       </div>
-      <p class="total"> {{ `$${orderSum}` }} </p>
+      <p class="total"> {{ `$${Math.round(orderSum)}` }} </p>
+      <!-- <p class="extra-charge">Наценка на заказ {{this.orderSum + this.orderSum * (this.range / 100)}}</p> -->
+      <div class="extra-charge-container">
+        <div @click="addExtra(percent)" v-for="percent in extraChargePercents" v-bind:key="percent" class="extra-charge-button">{{`+${percent}%`}}</div>
+      </div>
       <div class="weapons-order">
         <p v-for="(weapon, name) in weaponObject" v-bind:key="name" class="order"> {{`${name} x${weapon}`}} </p>
         <p class="order-none" v-if="Object.keys(weaponObject).length === 0">НЕТ ТОВАРОВ</p>
@@ -18,7 +22,7 @@
 
     <div class="orders-container">
       <p class="orders-header">СПИСОК ЗАКАЗОВ</p>
-      <div v-for="(orderInList, index) in orders" v-bind:key="orderInList" class="orders">
+      <div v-for="(orderInList, index) in orders" :key="index" class="orders">
         <p class="order">{{ orderInList }}</p>
         <img @click="removeOrder(index)" class="logo" src="https://img.icons8.com/material/24/000000/filled-trash.png"/>
       </div>
@@ -48,6 +52,8 @@ export default {
       search: '',
       buyerName: '',
       orders: [],
+      range: 0,
+      extraChargePercents: [25, 50, 70, 100]
     }
   },
 
@@ -78,22 +84,25 @@ export default {
       var curOrder = this.weaponObject
       var curOrderString = JSON.stringify(curOrder)
       curOrderString = curOrderString.replace(reg, '')
-      var newOrder = `Имя: ${this.buyerName} | Заказ: ${curOrderString} | Сумма: ${this.orderSum}`
+      var newOrder = `Имя: ${this.buyerName} | Заказ: ${curOrderString} | Сумма: ${Math.round(this.orderSum)}`
       this.orders.push(newOrder)
     },
     removeOrder(index){
       this.orders.splice(index, 1)
+    },
+    addExtra(percent){
+      console.log((percent))
+      this.orderSum = this.orderSum + this.orderSum * (percent / 100)
     }
   },
 
   computed: {
     filteredGuns() {
       return db.filter((gun) =>{
-        return gun.name.match(this.search)
+        return gun.name.toLowerCase().match(this.search.toLowerCase())
       })
     },
   },
-
 }
 </script>
 
@@ -105,6 +114,7 @@ $dobrograd-grey: #dbdbdb;
   .calc{
     user-select: none;
 
+    
     .cart{
       background-color: $dobrograd-purple;
       color: $dobrograd-white;
@@ -124,8 +134,30 @@ $dobrograd-grey: #dbdbdb;
           padding-right: 5px;
           cursor: pointer;
         }
-
       }
+      .extra-charge{
+          text-transform: uppercase;
+          font-size: 8pt;
+        }
+        
+      .extra-charge-container{
+        padding-top: 5px;
+        padding-left: 5px;
+        display: flex;
+
+        .extra-charge-button{
+          // margin: 0 auto;
+          padding: 5px;
+          margin-right: 5px;
+          font-size: 8pt;
+          font-weight: 600;
+          background-color: $dobrograd-white;
+          color: $dobrograd-purple;
+          border-radius: 10px 10px 10px 10px;
+        }
+      }
+    
+      
 
       .order-sum{
         padding: 5px;
@@ -167,6 +199,7 @@ $dobrograd-grey: #dbdbdb;
           border: none;
           padding: 5px;
           margin-right: 10px;
+          margin-left: 4px;
         }
         .submit-order{
           border-radius: 10px 10px 10px 10px;
