@@ -5,7 +5,7 @@
        <p class="order-sum">Сумма заказа</p>
        <img @click="resetCart()" class="logo" src="https://img.icons8.com/small/32/000000/recurring-appointment.png"/>
       </div>
-      <p class="total"> {{ `$${Math.round(orderSum)}` }} </p>
+      <p class="total"> {{ `₽${Math.round(orderSum)}` }} </p>
       <!-- <p class="extra-charge">Наценка на заказ {{this.orderSum + this.orderSum * (this.range / 100)}}</p> -->
       <div class="extra-charge-container">
         <div @click="addExtra(percent)" v-for="percent in extraChargePercents" v-bind:key="percent" class="extra-charge-button">{{`+${percent}%`}}</div>
