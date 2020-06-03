@@ -11,23 +11,26 @@
         <p class="order-none" v-if="Object.keys(weaponObject).length === 0">НЕТ ТОВАРОВ</p>
       </div>
       <div class="add-buyer">
-        <input placeholder="Стив Хьюис" v-model="buyerName" class="buyer-name" type="text">
-        <img class="logo" src="https://img.icons8.com/material-rounded/24/000000/add.png"/>
+        <input placeholder="Имя Покупателя" v-model="buyerName" class="buyer-name" type="text">
+        <img @click="formOrder(), resetCart()" class="logo" src="https://img.icons8.com/material-rounded/24/000000/add.png"/>
       </div>
     </div>
 
     <div class="orders-container">
       <p class="orders-header">СПИСОК ЗАКАЗОВ</p>
-      <p  class="orders"></p>
+      <div v-for="(orderInList, index) in orders" v-bind:key="orderInList" class="orders">
+        <p class="order">{{ orderInList }}</p>
+        <img @click="removeOrder(index)" class="logo" src="https://img.icons8.com/material/24/000000/filled-trash.png"/>
+      </div>
     </div>
 
     <h1 class="product-list-header">ТОВАРЫ</h1>
     <input placeholder="Введите название оружия" v-model="search" type="text" class="product-search">
     <div class="product-list">
-      <div v-for="gun in filteredGuns" v-bind:key="gun.name" class="product">
-         {{`${gun.name} — ${gun.price}`}} 
-         <div class="add-to-cart" @click="addToCart(gun), addToOrder(gun)">add to cart</div> 
-      </div> 
+      <div v-for="gun in filteredGuns" v-bind:key="gun.name" class="products">
+        <p class="product">{{`${gun.name} — ${gun.price}`}}</p>
+        <img class="add-to-cart" @click="addToCart(gun), addToOrder(gun)" src="https://img.icons8.com/ios-glyphs/30/000000/add-to-basket.png"/>
+      </div>
     </div>
   </div>
 </template>
@@ -44,6 +47,7 @@ export default {
       weaponObject: {},
       search: '',
       buyerName: '',
+      orders: [],
     }
   },
 
@@ -53,7 +57,8 @@ export default {
     },
     resetCart(){
       this.orderSum = 0
-      this.weaponObject = {} 
+      this.weaponObject = {}
+      this.buyerName = ''
     },
     addToOrder(gun){
       this.order = gun.name
@@ -66,6 +71,18 @@ export default {
             this.weaponObject[weapon] = 1
         }
       })
+    },
+    formOrder(){
+      var reg = /{|}|"/g
+
+      var curOrder = this.weaponObject
+      var curOrderString = JSON.stringify(curOrder)
+      curOrderString = curOrderString.replace(reg, '')
+      var newOrder = `Имя: ${this.buyerName} Заказ: ${curOrderString} Сумма: ${this.orderSum}`
+      this.orders.push(newOrder)
+    },
+    removeOrder(index){
+      this.orders.splice(index, 1)
     }
   },
 
@@ -176,8 +193,26 @@ $dobrograd-grey: #dbdbdb;
       .orders-header{
         padding: 5px;
         padding-left: 20px;
-        font-size: 10pt;
+        font-size: 12pt;
         text-transform: uppercase;
+      }
+
+      .orders{
+        font-size: 10pt;
+        padding-left: 10px;
+        display: flex;
+        justify-content: space-between;
+        align-content: center;
+
+        .logo{
+          height: 16px;
+          filter: invert(1);
+          padding-right: 5px;
+          cursor: pointer;
+        }
+        .order{
+          padding-top: 5px;
+        }
       }
     }
 
@@ -200,7 +235,7 @@ $dobrograd-grey: #dbdbdb;
     .product-list{
       height: 532px;
       overflow-y: scroll;
-      .product{
+      .products{
         background-color: $dobrograd-purple;
         color: $dobrograd-white;
         margin: 5px 10px;
@@ -209,6 +244,15 @@ $dobrograd-grey: #dbdbdb;
         padding: 5px;
         padding-left: 20px;
         // cursor: pointer;
+        display: flex;
+        align-content: center;
+        align-items: center;
+        justify-content: space-between;
+        .add-to-cart{
+          padding-right: 20px;
+          filter: invert(1);
+          cursor: pointer;
+        }
       }
       .add-to-cart{
         // padding-left: 0px;
