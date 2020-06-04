@@ -29,5 +29,9 @@ export const db = [
     {name: 'SG552', price: 39085},
     {name: 'USP', price: 9260},
     {name: 'USP-S', price: 11095},
-    {name: 'XM1014', price: 30985}
+    {name: 'XM1014', price: 30985},
+    {name: 'Дробь', price: 350},
+    {name: 'Крупный калибр', price: 500},
+    {name: 'Малый калибр', price: 300},
+    {name: 'Снайперский калибр', price: 600}
 ];

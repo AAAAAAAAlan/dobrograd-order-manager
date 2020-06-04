@@ -8,6 +8,7 @@
       <p class="total"> {{ `₽${Math.round(orderSum)}` }} </p>
       <div class="extra-charge-container">
         <div @click="addExtra(percent)" v-for="percent in extraChargePercents" v-bind:key="percent" class="extra-charge-button">{{`+${percent}%`}}</div>
+        <!-- <div class="remove-extra-charge"></div> -->
       </div>
       <div class="weapons-order">
         <p v-for="(weapon, name) in weaponObject" v-bind:key="name" class="order"> {{`${name} x${weapon}`}} </p>
@@ -280,6 +281,10 @@ $dobrograd-grey: #dbdbdb;
 
     .product-list{
       overflow-y: scroll;
+      // display: grid;
+      // grid-template-columns: repeat(2, 20%);
+      // grid-template-rows: repeat(2, 20%);
+
       .products{
         background-color: $dobrograd-purple;
         color: $dobrograd-white;
