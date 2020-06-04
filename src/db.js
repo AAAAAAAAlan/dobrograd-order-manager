@@ -15,14 +15,14 @@ export const db = [
     {name: 'UMP45', price: 20005},
     {name: 'Ножик', price: 3885},
     {name: 'Отмычка', price: 650}, //3885 for 6
-    {name: 'Лёгкий бронежилет', price: 2485},
+    {name: 'Лёгкий бронежилет', price: 2485},
     {name: 'Бронежилет', price: 4085},
-    {name: 'Тяжелый бронежилет', price: 9685},
+    {name: 'Тяжелый бронежилет', price: 9685},
     {name: 'AUG', price: 39085},
     {name: 'AWP', price: 45635},
-    {name: 'Colt .357', price: 18035},
-    {name: 'Desert Eagle', price: 16835},
-    {name: 'Dueal Elite', price: 19620},
+    {name: 'Colt .357', price: 18035},
+    {name: 'Desert Eagle', price: 16835},
+    {name: 'Dueal Elite', price: 19620},
     {name: 'G3SG1', price: 47085},
     {name: 'M4A1', price: 35610},
     {name: 'SG550', price: 47085},
@@ -31,7 +31,7 @@ export const db = [
     {name: 'USP-S', price: 11095},
     {name: 'XM1014', price: 30985},
     {name: 'Дробь', price: 350},
-    {name: 'Крупный калибр', price: 500},
-    {name: 'Малый калибр', price: 300},
-    {name: 'Снайперский калибр', price: 600}
+    {name: 'Крупный калибр', price: 500},
+    {name: 'Малый калибр', price: 300},
+    {name: 'Снайперский калибр', price: 600}
 ];
