@@ -16,7 +16,7 @@
       </div>
       <div class="add-buyer">
         <input placeholder="Имя Покупателя" v-model="buyerName" class="buyer-name" type="text">
-        <img @click="formOrder(), resetCart()" class="logo" src="https://img.icons8.com/material-rounded/24/000000/add.png"/>
+        <img @click="formOrder(), resetCart()" class="logo" src="https://img.icons8.com/material-rounded/48/000000/add.png"/>
       </div>
     </div>
 
@@ -33,7 +33,7 @@
     <div class="product-list">
       <div v-for="gun in filteredGuns" v-bind:key="gun.name" class="products">
         <p class="product">{{`${gun.name} — ${gun.price}₽`}}</p>
-        <img class="add-to-cart" @click="addToCart(gun), addToOrder(gun)" src="https://img.icons8.com/ios-glyphs/30/000000/add-to-basket.png"/>
+        <img class="add-to-cart" @click="addToCart(gun), addToOrder(gun)" src="https://img.icons8.com/ios-glyphs/60/000000/add-to-basket.png"/>
       </div>
     </div>
   </div>
@@ -210,6 +210,7 @@ $dobrograd-grey: #dbdbdb;
         .logo{
           filter: invert(1);
           padding-right: 5px;
+          height: 24px;
           cursor: pointer;
         }
       }
@@ -289,6 +290,7 @@ $dobrograd-grey: #dbdbdb;
       }
       .add-to-cart{
         // padding-left: 0px;
+        height: 30px;
       }
     }
   }
