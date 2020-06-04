@@ -14,7 +14,7 @@ export const db = [
     {name: 'TMP', price: 23690},
     {name: 'UMP45', price: 20005},
     {name: 'Ножик', price: 3885},
-    {name: 'Отмычка', price: 3885},
+    {name: 'Отмычка', price: 650}, //3885 for 6
     {name: 'Лёгкий бронежилет', price: 2485},
     {name: 'Бронежилет', price: 4085},
     {name: 'Тяжелый бронежилет', price: 9685},
