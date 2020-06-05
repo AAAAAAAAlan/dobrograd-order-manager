@@ -5,7 +5,7 @@
        <p class="order-sum">Сумма заказа</p>
        <img @click="resetCart()" class="logo" src="https://img.icons8.com/small/32/000000/recurring-appointment.png"/>
       </div>
-      <p class="total"> {{ `₽${Math.round(orderSum).toLocaleString()}` }} </p>
+      <p class="total"> {{ `₽${Math.round(orderSum).toLocaleString('en-GB')}` }} </p>
       <div class="extra-charge-container">
         <div @click="addExtra(percent)" v-for="percent in extraChargePercents" v-bind:key="percent" class="extra-charge-button">{{`+${percent}%`}}</div>
         <!-- <div class="remove-extra-charge"></div> -->
@@ -32,7 +32,7 @@
     <input placeholder="Введите название оружия" v-model="search" type="text" class="product-search">
     <div class="product-list" :style="{ height: `${productsListHeight}px` }" ref="product-list">
       <div v-for="gun in filteredGuns" v-bind:key="gun.name" class="products">
-        <p class="product">{{`${gun.name} — ${gun.price.toLocaleString()}₽`}}</p>
+        <p class="product">{{`${gun.name} — ${gun.price.toLocaleString('en-GB')}₽`}}</p>
         <img class="add-to-cart" @click="addToCart(gun), addToOrder(gun)" src="https://img.icons8.com/ios-glyphs/60/000000/add-to-basket.png"/>
       </div>
     </div>
@@ -188,6 +188,7 @@ $dobrograd-grey: #dbdbdb;
         align-content: stretch;
         .order{
           padding: 5px;
+          // padding-bottom: 3px;
           // padding-left: 20px;
           font-size: 8pt;
         }
