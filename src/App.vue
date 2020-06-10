@@ -1,28 +1,24 @@
 <template>
-  <div id="app">
-    <Calc></Calc>
-  </div>
+  <v-app>
+    <TopBar/>
+    <Interface/>
+  </v-app>
 </template>
 
 <script>
-import Calc from './components/Calc.vue'
+import Interface from './components/Interface';
+import TopBar from './components/TopBar';
 
 export default {
   name: 'App',
-  components: {
-    Calc
-  }
-}
-</script>
 
-<style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-*{
-  margin: 0;
-  padding: 0;
-}
-</style>
+  components: {
+    Interface,
+    TopBar
+  },
+
+  data: () => ({
+    //
+  }),
+};
+</script>
