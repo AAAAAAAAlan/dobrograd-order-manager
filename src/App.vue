@@ -1,8 +1,8 @@
 <template>
-  <v-app>
+  <div class="app">
     <TopBar/>
     <Interface/>
-  </v-app>
+  </div>
 </template>
 
 <script>
@@ -22,3 +22,7 @@ export default {
   }),
 };
 </script>
+
+<style scoped lang="scss">
+  
+</style>
