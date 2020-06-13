@@ -1,20 +1,26 @@
 <template>
-  <div class="app">
+  <v-app class="app">
     <TopBar/>
     <Interface/>
-  </div>
+    <ProductList/>
+    <OrderList/>
+  </v-app>
 </template>
 
 <script>
-import Interface from './components/Interface';
-import TopBar from './components/TopBar';
+import Interface from './components/Interface'
+import TopBar from './components/TopBar'
+import ProductList from './components/ProductList'
+import OrderList from './components/OrderList'
 
 export default {
   name: 'App',
 
   components: {
     Interface,
-    TopBar
+    TopBar,
+    ProductList,
+    OrderList
   },
 
   data: () => ({
@@ -23,6 +29,16 @@ export default {
 };
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
+*{
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+*{
+  margin: 0;
+  padding: 0;
+  // max-height: 100vh;
+}
   
 </style>
