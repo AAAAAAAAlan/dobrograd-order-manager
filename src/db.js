@@ -22,7 +22,7 @@ export const db = [
     {name: 'AWP', price: 45635},
     {name: 'Colt .357', price: 18035},
     {name: 'Desert Eagle', price: 16835},
-    {name: 'Dueal Elite', price: 19620},
+    {name: 'Dual Elite', price: 19620},
     {name: 'G3SG1', price: 47085},
     {name: 'M4A1', price: 35610},
     {name: 'SG550', price: 47085},
