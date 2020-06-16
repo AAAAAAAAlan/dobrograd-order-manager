@@ -2,7 +2,7 @@
   <v-card class="product-list">
     <v-list-item-group class="product-container" color="#554455">
         <v-list-item class="product" v-for="product in db" :key="product.name">
-            <div class="name">{{product.name}}</div> <v-cpacer></v-cpacer><v-cpacer></v-cpacer><v-cpacer></v-cpacer> <div class="price">{{`${product.price.toLocaleString('en-GB')}₽`}}</div>
+            <div class="name">{{product.name}}</div> <v-spacer></v-spacer> <div class="price">{{`${product.price.toLocaleString('en-GB')}₽`}}</div>
         </v-list-item>
     </v-list-item-group>
   </v-card>

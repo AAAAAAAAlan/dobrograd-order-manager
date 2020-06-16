@@ -18,8 +18,9 @@
         nav
         dense
       >
+      <!-- v-model="group" -->
         <v-list-item-group
-          v-model="group"
+          
           active-class="deep-purple--text text--accent-4"
         >
           <v-list-item>
@@ -43,12 +44,26 @@
 </template>
 
 <script>
-// var socket = io('http://localhost:3000/');
+import io from 'socket.io-client'
 
   export default {
     data: () => ({
       drawer: false,
+      // socket: {},
+      context: {},
+      test: null
     }),
+
+    created () {
+      const socket = io('http://localhost:3000');
+
+      socket.on('chat-message', data =>{
+        console.log(data)
+      })
+    },
+    mounted () {
+      
+    },
   }
 </script>
 
