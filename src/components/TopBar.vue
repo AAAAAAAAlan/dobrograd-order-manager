@@ -44,7 +44,7 @@
 </template>
 
 <script>
-import io from 'socket.io-client'
+// import io from 'socket.io-client'
 
   export default {
     data: () => ({
@@ -55,11 +55,10 @@ import io from 'socket.io-client'
     }),
 
     created () {
-      const socket = io('http://localhost:3000');
-
-      socket.on('chat-message', data =>{
-        console.log(data)
-      })
+      // const socket = io('http://localhost:3000');
+      // socket.on('chat-message', data =>{
+      //   console.log(data)
+      // })
     },
     mounted () {
       

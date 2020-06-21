@@ -4,11 +4,19 @@
         <div class="title-container">
           <v-card-title class="sum">СУММА ЗАКАЗА</v-card-title>
         </div>
-        <v-card-subtitle class="card-subtitle">500p</v-card-subtitle>
+        <v-card-subtitle class="card-subtitle">{{`${Math.round(orderPrices).toLocaleString('en-GB')}₽` }}</v-card-subtitle>
         <v-card-text>
-          <v-chip class="current-products" close>AK</v-chip>
+          <v-chip
+            @click:close="deleteSelected(index)"
+            v-for="(selectedProduct, index) in selectedProducts" class="current-products"
+            close
+            :key="index"
+            >{{selectedProduct}}</v-chip>
+            <v-chip
+              v-if="selectedProducts.length == 0"
+            >Товары отсутствуют</v-chip>
         </v-card-text>
-       <v-slider
+        <v-slider
           class="slider"
           step="5"
           v-model="slider"
@@ -20,28 +28,80 @@
         <v-text-field
           color="#554455"
           class="buyer-name"
-          v-model="currentText" 
+          v-model="buyerName" 
           label="Имя покупателя" 
           ></v-text-field>
-        <v-btn
-          class="submit-order"
-          medium  
-          color="#554455"
-        >
-          Добавить заказ
-        </v-btn>
-        <v-spacer class="koctblb">1</v-spacer>
+
+        <div class="order-buttons">
+          
+          <v-spacer class="spacer"></v-spacer>
+          
+          <v-btn
+            class="submit-order"
+            medium  
+            color="#554455"
+            @click="submitOrder()"
+          >
+            Добавить заказ
+          </v-btn>
+
+          <v-btn
+            class="delete-order"
+            medium  
+            color="#554455"
+            @click="deleteOrder()"
+          >
+            <v-icon color="white">mdi-delete</v-icon>
+          </v-btn>
+
+        </div>
+
+        <v-spacer class="spacer"></v-spacer>
       </v-card>
   </div>
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
 export default {
   data() {
     return {
-      slider: 15,
+      slider: 0,
+      buyerName: '',
     }
   },
+
+  methods: {
+    deleteSelected(index){
+      console.log('deleted', index)
+      this.$store.commit('deleteSelected', index)
+    },
+
+    deleteOrder(){
+      for(let i = 0; i < this.selectedProducts.length; i+1){
+        this.$store.commit('deleteSelected', i)
+        console.log('deleted ' + i )
+      }
+    }
+  },
+
+   computed: {
+      ...mapState({
+           selectedProducts: state => state.selectedProducts,
+           currentPrice: state => state.currentPriceArr
+       }),
+
+      orderPrices(){
+        let currentPriceTemp = this.currentPrice.slice().reduce((a, b) => a + b, 0)
+        return currentPriceTemp = currentPriceTemp + currentPriceTemp * (this.slider / 100)
+      },
+
+   },
+ 
+  created(){
+    this.count = this.$store.getters.getCount
+  }
 }
 </script>
 
@@ -74,6 +134,31 @@ export default {
     margin-top: 15px;
     padding: 0 10px;
   }
+
+  .order-buttons{
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+    justify-content: center;
+
+    .submit-order{
+      grid-column-start: 2;
+      grid-column-end: 2;
+      margin: 0 10px 0 10px;
+    }
+
+    .delete-order{
+      width: 10%;
+      grid-column-start: 3;
+      grid-column-end: 3;
+      margin: 0 10px 0 10px;
+    }
+
+    .spacer{
+    // color: white;
+    // margin: 10px;
+    margin: 0 18px 0 18px;
+  }
+  }
   
   .buyer-name{
 
@@ -83,6 +168,7 @@ export default {
 
   .current-products{
     font-size: 9pt;
+    margin: 3px;
   }
 
   .submit-order{
@@ -91,8 +177,10 @@ export default {
     margin: 0 auto;
   }
 
-  .koctblb{
-    color: white;
+  .spacer{
+    // color: white;
+    padding: 12px;
+    // padding-right: 2px;
   }
 }
 </style>

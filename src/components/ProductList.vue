@@ -1,7 +1,11 @@
 <template>
   <v-card class="product-list">
     <v-list-item-group class="product-container" color="#554455">
-        <v-list-item class="product" v-for="product in db" :key="product.name">
+        <v-list-item 
+            class="product" v-for="product in db" 
+            :key="product.name"
+            @click="selectProduct(product)"
+        >
             <div class="name">{{product.name}}</div> <v-spacer></v-spacer> <div class="price">{{`${product.price.toLocaleString('en-GB')}₽`}}</div>
         </v-list-item>
     </v-list-item-group>
@@ -10,11 +14,19 @@
 
 <script>
 import { db }  from '../db.js'
+// import { mapState } from 'vuex'
 
 export default {
     data() {
         return {
-            db,
+            db
+        }
+    },
+
+    methods: {
+        selectProduct(product) {
+            console.log(product.name)
+            this.$store.commit('selectProduct', product)
         }
     },
 }
@@ -37,7 +49,6 @@ export default {
                 
                 .name{
                     padding-left: 10px;
-                    width: 170px;
                 }
 
                 .price{

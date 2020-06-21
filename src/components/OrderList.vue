@@ -54,7 +54,7 @@
 
 .order-list{
     margin: 10px;
-    max-height: 300px;
+    max-height: 260px;
     overflow-y: scroll;
 }
 
