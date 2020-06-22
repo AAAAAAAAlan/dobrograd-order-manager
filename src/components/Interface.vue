@@ -2,7 +2,7 @@
   <div class="interface">
       <v-card class="mx-auto">
         <div class="title-container">
-          <v-card-title class="sum">СУММА ЗАКАЗА</v-card-title>
+          <v-card-title @click="debugOrders()" class="sum">СУММА ЗАКАЗА</v-card-title>
         </div>
         <v-card-subtitle class="card-subtitle">{{`${Math.round(orderPrices).toLocaleString('en-GB')}₽` }}</v-card-subtitle>
         <v-card-text>
@@ -40,7 +40,7 @@
             class="submit-order"
             medium  
             color="#554455"
-            @click="submitOrder()"
+            @click="submitOrder(), deleteOrder()"
           >
             Добавить заказ
           </v-btn>
@@ -69,6 +69,7 @@ export default {
     return {
       slider: 0,
       buyerName: '',
+      arr: []
     }
   },
 
@@ -79,17 +80,27 @@ export default {
     },
 
     deleteOrder(){
-      for(let i = 0; i < this.selectedProducts.length; i+1){
-        this.$store.commit('deleteSelected', i)
-        console.log('deleted ' + i )
+      while(this.selectedProducts.length){
+        this.$store.commit('deleteSelected', 0)
       }
+    },
+
+    submitOrder(){
+      let currentOrder = {name: this.buyerName, order: this.selectedProducts.join(', '), price: `${Math.round(this.orderPrices).toLocaleString('en-GB')}₽`}
+      this.$store.commit('pushToOrders', currentOrder)
+    },
+    
+    debugOrders(){
+      this.$store.commit('debugOrders')
     }
+
   },
 
    computed: {
       ...mapState({
            selectedProducts: state => state.selectedProducts,
-           currentPrice: state => state.currentPriceArr
+           currentPrice: state => state.currentPriceArr,
+           orders: state => state.orders 
        }),
 
       orderPrices(){
