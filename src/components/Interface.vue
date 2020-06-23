@@ -75,7 +75,6 @@ export default {
 
   methods: {
     deleteSelected(index){
-      console.log('deleted', index)
       this.$store.commit('deleteSelected', index)
     },
 

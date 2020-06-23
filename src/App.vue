@@ -3,8 +3,8 @@
     <TopBar/>
     <Interface/>
     <ProductList/>
-    <!-- <OrderList/> -->
-    <OrderListTest/>
+    <OrderList/>
+
   </v-app>
 </template>
 
@@ -12,8 +12,7 @@
 import Interface from './components/Interface'
 import TopBar from './components/TopBar'
 import ProductList from './components/ProductList'
-// import OrderList from './components/OrderList'
-import OrderListTest from './components/OrderListTest'
+import OrderList from './components/OrderList'
 
 export default {
   name: 'App',
@@ -22,8 +21,7 @@ export default {
     Interface,
     TopBar,
     ProductList,
-    // OrderList,
-    OrderListTest
+    OrderList,
   },
 
   data: () => ({

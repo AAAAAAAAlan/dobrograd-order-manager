@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import createPersistedState from 'vuex-persistedstate'
 
 Vue.use(Vuex)
 
@@ -7,14 +8,12 @@ export default new Vuex.Store({
   state: {
     selectedProducts: [],
     currentPriceArr: [],
-    orders: []
+    orders: [],
+    completedOrders: []
   },
   mutations: {
     selectProduct(state, selectedProduct){
-      // select product name and create chip 
       state.selectedProducts.push(selectedProduct.name)
-
-      // 
       state.currentPriceArr.push(selectedProduct.price)
     },
 
@@ -28,13 +27,17 @@ export default new Vuex.Store({
     },
 
     completeOrder(state, index){
+      // store completed order
+      state.completedOrders.push(state.orders[index])
+      // delete completed order from the list
       state.orders.splice(index, 1)
     },
 
-      // adds 3 fake orders for dev purposes 
-    debugOrders(state){
-      state.orders.push({name: 'Аслан', order: 'FAMAS', price: 500}, {name: 'Сослан', order: 'FAMAS', price: 500}, {name: 'Абубакар', order: 'FAMAS', price: 500})
+    clearCompletedOrders(state){
+      state.completedOrders = []
     }
+
+    
   },
   actions: {
   },
@@ -42,5 +45,6 @@ export default new Vuex.Store({
   },
   getters: {
     getProduct: state => state.selectedProduct
-  }
+  },
+  plugins: [createPersistedState()]
 })

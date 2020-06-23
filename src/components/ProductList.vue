@@ -24,7 +24,7 @@
 
 <script>
 import { db }  from '../db.js'
-// import { mapState } from 'vuex'
+
 
 export default {
     data() {
@@ -77,9 +77,9 @@ export default {
                     padding-left: 10px;
                 }
 
-                .price{
+                // .price{
                     // padding-right: 10px;
-                }
+                // }
             } 
         }
     }

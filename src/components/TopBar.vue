@@ -13,55 +13,46 @@
       v-model="drawer"
       absolute
       temporary
+      width=90%
     >
-      <v-list
-        nav
-        dense
-      >
-      <!-- v-model="group" -->
-        <v-list-item-group
-          
-          active-class="deep-purple--text text--accent-4"
-        >
-          <v-list-item>
-            <v-list-item-icon>
-              <v-icon>mdi-home</v-icon>
-            </v-list-item-icon>
-            <v-list-item-title>Home</v-list-item-title>
-          </v-list-item>
-
-          <v-list-item>
-            <v-list-item-icon>
-              <v-icon>mdi-account</v-icon>
-            </v-list-item-icon>
-            <v-list-item-title>Account</v-list-item-title>
-          </v-list-item>
-
-        </v-list-item-group>
-      </v-list>
+      <v-sparkline
+        :value="value"
+        color="black"
+        line-width="2"
+        padding="16"
+      ></v-sparkline>
+      <v-btn @click="clearCompletedOrders()">clear completed orders</v-btn>
     </v-navigation-drawer>
   </div>
 </template>
 
 <script>
-// import io from 'socket.io-client'
+import { mapState } from 'vuex'
 
   export default {
     data: () => ({
       drawer: false,
-      // socket: {},
-      context: {},
-      test: null
+      value: [200, 100, 500, 400]
     }),
 
-    created () {
-      // const socket = io('http://localhost:3000');
-      // socket.on('chat-message', data =>{
-      //   console.log(data)
-      // })
+    computed: {
+        ...mapState({
+           completedOrders: state => state.completedOrders 
+       }),
+
+       completedOrdersPrices(){
+         let arr = []
+         for(let i = 0; i < this.completedOrders.length; i++){
+           arr.push(this.completedOrders[i].price)
+         }
+         return arr
+       }
     },
-    mounted () {
-      
+
+    methods: {
+      clearCompletedOrders() {
+        this.$store.commit('clearCompletedOrders')
+      }
     },
   }
 </script>
@@ -69,5 +60,10 @@
 <style>
 .v-toolbar__content{
     background-color: #554455 !Important;
+}
+
+.graph{
+  margin: 10px;
+  
 }
 </style>
