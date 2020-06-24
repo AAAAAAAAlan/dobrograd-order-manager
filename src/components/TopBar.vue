@@ -120,7 +120,7 @@ import { mapState } from 'vuex'
       },
 
       openGithub(){
-        let url = 'https://github.com/AlanSnowle'
+        let url = 'https://github.com/AlanSnowle/dobrograd-tokarnya'
         let win = window.open(url);
         win.focus();
       }
