@@ -85,7 +85,8 @@ export default {
     },
 
     submitOrder(){
-      let currentOrder = {name: this.buyerName, order: this.selectedProducts.join(', '), price: `${Math.round(this.orderPrices).toLocaleString('en-GB')}₽`}
+      let currentOrder = {name: this.buyerName, order: this.selectedProducts.join(', '), price: Math.round(this.orderPrices)}
+      this.buyerName = ''
       this.$store.commit('pushToOrders', currentOrder)
     },
     

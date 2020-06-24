@@ -13,7 +13,7 @@
             <v-list-item-content>
               <v-list-item-title class="order-name"><strong>{{order.name}}</strong></v-list-item-title>
               <p class="ordered-products">{{order.order}}</p>
-              <v-list-item-subtitle><strong>К оплате: </strong> {{ order.price }} </v-list-item-subtitle>
+              <v-list-item-subtitle><strong>К оплате: </strong> {{ `${order.price.toLocaleString('en-GB')}₽` }} </v-list-item-subtitle>
             </v-list-item-content>
 
         </v-list-item>

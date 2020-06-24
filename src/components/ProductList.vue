@@ -1,6 +1,7 @@
 <template>
 <div class="product-list-container">
     <v-text-field
+        autocomplete="off"
         class="search-field"
         name="name"
         label="Поиск по товарам"
@@ -11,11 +12,12 @@
 <v-card class="product-list">
     <v-list-item-group class="product-container" color="#554455">
         <v-list-item 
-            class="product" v-for="product in filteredGuns" 
-            :key="product.name"
+            class="product" v-for="(product, index) in filteredGuns" 
+            :key="index"
             @click="selectProduct(product)"
         >
             <div class="name">{{product.name}}</div> <v-spacer></v-spacer> <div class="price">{{`${product.price.toLocaleString('en-GB')}₽`}}</div>
+
         </v-list-item>
     </v-list-item-group>
 </v-card>
@@ -23,13 +25,11 @@
 </template>
 
 <script>
-import { db }  from '../db.js'
-
+import { mapState } from 'vuex'
 
 export default {
     data() {
         return {
-            db,
             search: ''
         }
     },
@@ -41,11 +41,14 @@ export default {
     },
 
     computed: {
+        ...mapState({
+           newDb: state => state.newDb 
+       }),
+
         filteredGuns() {
-        return db.filter((gun) =>{
-            return gun.name.toLowerCase().match(this.search.toLowerCase())
-        })
-    },
+            return this.newDb.filter((gun) =>{
+                return gun.name.toLowerCase().match(this.search.toLowerCase())
+            })},
     },
 }
 </script>
